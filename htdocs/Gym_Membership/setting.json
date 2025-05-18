@@ -1,0 +1,9 @@
+{
+    "editor.minimap.size": "fill",
+    "editor.minimap.scale": 3,
+    "workbench.editor.empty.hint": "hidden",
+    "security.workspace.trust.untrustedFiles": "open",
+    "files.autoSave": "onFocusChange",
+    "vscode-edge-devtools.webhintInstallNotification": true,
+    "php.validate.executablePath": ""
+}

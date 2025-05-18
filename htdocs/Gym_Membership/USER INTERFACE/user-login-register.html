@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyper Gym - Login & Register</title>
+    <link rel="stylesheet" href="user-login-register.css">
+    <!-- Facebook SDK Integration -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</head>
+<body>
+    <style>
+        body {
+          background-image: url("bg.jpg");
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+        }
+    </style>
+    <div class="login-container">
+        <!-- Left Panel (Logo & Animation) -->
+        <div class="left-panel">
+            <img src="logo.png" alt="Logo" class="logo">
+        </div>
+
+        <!-- Right Panel (Form & Tabs) -->
+        <div class="right-panel">
+            <div class="logo-small"></div>
+
+            <!-- Tabs for Login and Register -->
+            <div class="tabs">
+                <button class="tab-btn" id="login-tab">LOGIN</button>
+                <button class="tab-btn" id="register-tab">REGISTER</button>
+            </div>
+
+            <!-- Authentication Form -->
+            <form id="auth-form">
+                <!-- Default Login Form -->
+                <div class="form-group">
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="terms-checkbox" required>
+                    <label for="terms-checkbox">I agree to Christ Strength Gym's Terms & Conditions and Privacy Policy</label>
+                </div>
+                <button type="submit" class="login-btn">LOGIN</button>
+                <p id="response-message"></p>
+                <p>
+                    <button type="button" id="forgot-password-btn" class="link-btn">Forgot Password?</button>
+                </p>
+                <!-- Facebook Login Button -->
+                <p>
+                    <button type="button" id="fb-login-btn" class="link-btn">Login with Facebook</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const authForm = document.querySelector('#auth-form');
+            let currentAction = localStorage.getItem('currentAction') || 'login'; // Default action
+
+            // Initialize Facebook SDK
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : 'YOUR_FACEBOOK_APP_ID', // Replace with your Facebook app ID
+                    cookie     : true,
+                    xfbml      : true,
+                    version    : 'v15.0'
+                });
+
+                FB.AppEvents.logPageView();
+            };
+
+            // Attach event listener for Forgot Password to ensure it's always available
+            attachForgotPasswordListener();
+
+            // Handle Facebook login
+            document.querySelector('#fb-login-btn').addEventListener('click', function () {
+                FB.login(function(response) {
+                    if (response.authResponse) {
+                        FB.api('/me', {fields: 'id,name,email'}, function(response) {
+                            const userData = {
+                                fbId: response.id,
+                                name: response.name,
+                                email: response.email
+                            };
+                            // Send the data to your server for processing and saving to the database
+                            storeUserData(userData);
+                        });
+                    } else {
+                        alert('Facebook login failed');
+                    }
+                }, {scope: 'public_profile,email'});
+            });
+
+            // Function to store the Facebook user data
+            function storeUserData(userData) {
+                fetch('store-fb-user.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('User data saved successfully!');
+                    } else {
+                        alert('Failed to save user data');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            // Render the Login Form
+            function renderLoginForm() {
+                authForm.innerHTML = ` 
+                    <div class="form-group">
+                        <input type="text" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="login-btn">LOGIN</button>
+                    <p>
+                        <button type="button" id="forgot-password-btn" class="link-btn">Forgot Password?</button>
+                    </p>
+                    <p>
+                        <button type="button" id="fb-login-btn" class="link-btn">Login with Facebook</button>
+                    </p>
+                `;
+                attachForgotPasswordListener(); // Reattach listener after rendering
+            }
+
+            // Handle Forgot Password flow
+            function attachForgotPasswordListener() {
+                const forgotPasswordBtn = document.querySelector('#forgot-password-btn');
+                if (forgotPasswordBtn) {
+                    forgotPasswordBtn.addEventListener('click', function () {
+                        renderForgotPasswordForm();
+                    });
+                }
+            }
+
+            function renderForgotPasswordForm() {
+                authForm.innerHTML = `
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Enter your registered email" required>
+                    </div>
+                    <button type="submit" class="login-btn">SEND RESET LINK</button>
+                    <p>
+                        <button type="button" id="back-to-login" class="link-btn">Back to Login</button>
+                    </p>
+                `;
+                document.querySelector('#back-to-login').addEventListener('click', function () {
+                    document.querySelector('#login-tab').click(); // Switch back to the login tab
+                });
+
+                // Add listener for sending reset link
+                authForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(authForm);
+                    const email = formData.get('email');
+
+                    // Simulate sending the reset link (add your server-side logic here)
+                    alert('A reset link has been sent to ' + email);
+                    renderOTPForm();  // Show OTP form after sending reset link
+                });
+            }
+
+            // Render OTP Form for Reset Password
+            function renderOTPForm() {
+                authForm.innerHTML = `
+                    <div class="form-group">
+                        <input type="text" name="otp" placeholder="Enter the OTP sent to your email" required>
+                    </div>
+                    <button type="submit" class="login-btn">VERIFY OTP</button>
+                    <p>
+                        <button type="button" id="back-to-send-reset-link" class="link-btn">Back to Send Reset Link</button>
+                    </p>
+                `;
+
+                // Listener to go back to sending reset link
+                document.querySelector('#back-to-send-reset-link').addEventListener('click', function () {
+                    renderForgotPasswordForm();
+                });
+
+                // Add listener for verifying OTP
+                authForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(authForm);
+                    const otp = formData.get('otp');
+
+                    // Simulate OTP verification (add your server-side logic here)
+                    if (otp === '123456') {
+                        alert('OTP verified successfully! You can now reset your password.');
+                        renderNewPasswordForm(); // Show new password form after OTP verification
+                    } else {
+                        alert('Invalid OTP. Please try again.');
+                    }
+                });
+            }
+
+            // Render New Password Form
+            function renderNewPasswordForm() {
+                authForm.innerHTML = `
+                    <div class="form-group">
+                        <input type="password" name="new-password" placeholder="New Password" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="confirm-new-password" placeholder="Confirm New Password" required>
+                    </div>
+                    <button type="submit" class="login-btn">SET NEW PASSWORD</button>
+                `;
+                
+                // Add listener for setting new password
+                authForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(authForm);
+                    const newPassword = formData.get('new-password');
+                    const confirmNewPassword = formData.get('confirm-new-password');
+
+                    if (newPassword === confirmNewPassword) {
+                        // Simulate password reset (add your server-side logic here)
+                        alert('Password has been reset successfully!');
+                        document.querySelector('#login-tab').click(); // Redirect back to login
+                    } else {
+                        alert('Passwords do not match. Please try again.');
+                    }
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>

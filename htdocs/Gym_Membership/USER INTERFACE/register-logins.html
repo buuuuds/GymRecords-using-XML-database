@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyper Gym - Login & Register</title>
+    <link rel="stylesheet" href="register-login.css">
+
+    <!-- Add Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+    <style>
+        body {
+            background-image: url("bg.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .password-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .password-container .fa-eye, .password-container .fa-eye-slash {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+
+    <div class="login-container">
+        <div class="left-panel">
+            <img src="logo.png" alt="Logo" class="logo">
+        </div>
+
+        <div class="right-panel">
+            <div class="tabs">
+                <button class="tab-btn" id="login-tab">LOGIN</button>
+                <button class="tab-btn" id="register-tab">REGISTER</button>
+            </div>
+
+            <form id="auth-form">
+                <div id="form-content">
+                    <!-- Form will be dynamically rendered here -->
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2024 Hyper Gym | <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const authForm = document.querySelector('#auth-form');
+            const formContent = document.querySelector('#form-content');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+        
+            // Retrieve the current action from localStorage (or default to 'login')
+            let currentAction = localStorage.getItem('currentAction') || 'login';
+        
+            // Handle tab switching (Login/Register)
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+        
+                    currentAction = this.id === 'register-tab' ? 'register' : 'login';
+                    localStorage.setItem('currentAction', currentAction); // Store the current action
+                    renderForm(currentAction);
+                });
+            });
+        
+            // Render forms based on currentAction
+            function renderForm(type) {
+                if (type === 'login') {
+                    formContent.innerHTML = `
+                        <div class="form-group">
+                            <input type="text" name="username" placeholder="Username" required>
+                        </div>
+                        <div class="form-group password-container">
+                            <input type="password" name="password" placeholder="Password" required id="password">
+                            <i class="fas fa-eye" id="eye-icon" onclick="togglePassword()"></i>
+                        </div>
+                        <button type="submit" class="login-btn">LOGIN</button>
+                        <p><button type="button" id="forgot-password-btn" class="link-btn">Forgot Password?</button></p>
+                        <div id="login-error" style="color: red; display: none;">Invalid username or password. Please try again.</div>
+                    `;
+                } else if (type === 'register') {
+                    formContent.innerHTML = `
+                        <div class="form-group">
+                            <input type="text" name="username" placeholder="Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group password-container">
+                            <input type="password" name="password" placeholder="Password" required id="password-register">
+                            <i class="fas fa-eye" id="eye-icon-register" onclick="togglePasswordRegister()"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">I agree to the terms and conditions</label>
+                        </div>
+                        <button type="submit" class="login-btn">REGISTER</button>
+                    `;
+                } else if (type === 'otpVerification') {
+                    formContent.innerHTML = `
+                        <div class="form-group">
+                            <input type="text" name="otp" placeholder="Enter OTP" required>
+                        </div>
+                        <button type="submit" class="login-btn">VERIFY OTP</button>
+                        <button type="button" id="back-to-login-btn" class="link-btn">Back to Login</button>
+                        <p><button type="button" id="resend-otp-btn" class="link-btn" disabled>Resend OTP (1 min)</button></p>
+                    `;
+                } else if (type === 'forgotPassword') {
+                    formContent.innerHTML = `
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <button type="submit" class="login-btn">SEND RESET LINK</button>
+                    `;
+                }
+        
+                rebindEvents();
+            }
+        
+            // Rebind events for actions
+            function rebindEvents() {
+                document.querySelector('#forgot-password-btn')?.addEventListener('click', function () {
+                    currentAction = 'forgotPassword';
+                    localStorage.setItem('currentAction', currentAction); // Store the current action
+                    renderForm(currentAction);
+                });
+        
+                document.querySelector('#resend-otp-btn')?.addEventListener('click', function () {
+                    alert('Resending OTP...');
+                    // Call backend to resend OTP
+                    this.disabled = true;
+                    startResendTimer();
+                });
+                document.querySelector('#back-to-login-btn')?.addEventListener('click', function () {
+                    currentAction = 'login';
+                    localStorage.setItem('currentAction', currentAction); // Store the current action
+                    renderForm(currentAction);
+                });
+            }
+        
+            // OTP resend timer
+            function startResendTimer() {
+                let timer = 60;
+                const resendButton = document.querySelector('#resend-otp-btn');
+                const interval = setInterval(() => {
+                    timer--;
+                    resendButton.textContent = `Resend OTP (${timer}s)`;
+                    if (timer === 0) {
+                        clearInterval(interval);
+                        resendButton.disabled = false;
+                        resendButton.textContent = 'Resend OTP';
+                    }
+                }, 1000);
+            }
+        
+            // Form submission handling
+            authForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+        
+                const formData = new FormData(authForm);
+                let actionURL;
+        
+                switch (currentAction) {
+                    case 'login':
+                        actionURL = 'logins.php';
+                        break;
+                    case 'register':
+                        if (formData.get('password') !== formData.get('confirmPassword')) {
+                            alert('Passwords do not match!');  // Password mismatch alert
+                            authForm.reset(); // Reset form fields on error
+                            return;
+                        }
+                        actionURL = 'registers.php';
+                        break;
+                    case 'otpVerification':
+                        actionURL = 'verify-otps.php'; // Backend to verify OTP
+                        break;
+                    case 'forgotPassword':
+                        actionURL = 'forgot-passwords.php'; // Backend to send password reset link
+                        break;
+                }
+        
+                try {
+                    const response = await fetch(actionURL, { method: 'POST', body: formData });
+                    const result = await response.json();
+        
+                    if (result.success) {
+                        alert(result.message);  // Success message in alert
+                        if (currentAction === 'login') {
+                            setTimeout(() => {
+                                window.location.href = 'userindex.php'; // Redirect to index.php after successful login
+                            }, 1000);
+                        } else if (currentAction === 'otpVerification') {
+                            // After successful OTP verification, store the user data in the database
+                            await storeDataInDatabase(result.userData); // Call the function to store data
+                            setTimeout(() => {
+                                alert('OTP Verified! User data stored.');
+                                window.location.href = 'register-logins.html';  // Redirect to login page after OTP match
+                            }, 1000);
+                        } else if (currentAction === 'register') {
+                            // After registration, go to OTP verification
+                            setTimeout(() => {
+                                currentAction = 'otpVerification'; // Change to OTP verification form
+                                renderForm(currentAction); // Render OTP verification form
+                            }, 1000);
+                        } else if (currentAction === 'forgotPassword') {
+                            // Handle password reset link request
+                             setTimeout(() => {
+                                alert('A password reset link has been sent to your email.');
+                                window.location.href = 'register-logins.html';  // Redirect to login page after sending reset link
+                            }, 1000);
+                        }
+                    } else {
+                        alert(result.error);  // Show error message if OTP doesn't match
+                    }
+        
+                } catch (error) {
+                    alert('An error occurred. Please try again.');  // General error message in alert
+                    console.error('Request failed:',error); // Log network error in the console
+                    authForm.reset(); // Reset form fields on error
+                }
+            });
+        
+            // Function to store data in the database after successful OTP verification
+            async function storeDataInDatabase(userData) {
+                try {
+                    // Send the user data to the backend to store it in the database
+                    const response = await fetch('store-user-data.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(userData)  // Send the user data as JSON
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        console.log('User data stored successfully');
+                    } else {
+                        console.error('Failed to store user data:', result.error);
+                    }
+                } catch (error) {
+                    console.error('Error storing user data:', error);
+                }
+            }
+        
+            // Initialize form rendering based on the current action
+            renderForm(currentAction);
+        });
+        
+        // Toggle password visibility for login form
+        function togglePassword() {
+            const passwordInput = document.querySelector('#password');
+            const eyeIcon = document.querySelector('#eye-icon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Toggle password visibility for registration form
+        function togglePasswordRegister() {
+            const passwordInput = document.querySelector('#password-register');
+            const eyeIcon = document.querySelector('#eye-icon-register');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
+    <script>
+        window.embeddedChatbotConfig = {
+            chatbotId: "g8kGxA_OKnyHBU8oL_sRL",
+            domain: "www.chatbase.co"
+        }
+    </script>
+    <script
+        src="https://www.chatbase.co/embed.min.js"
+        chatbotId="g8kGxA_OKnyHBU8oL_sRL"
+        domain="www.chatbase.co"
+        defer>
+    </script>
+</body>
+</html>

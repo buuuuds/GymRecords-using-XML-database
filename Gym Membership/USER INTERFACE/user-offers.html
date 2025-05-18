@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Offers</title>
+    <link rel="stylesheet" href="user-offers-style.css">
+    <link rel="icon" href="titlegymicon.jpg" type="x-icon">
+    <!-- Add Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Hamburger Menu for Mobile -->
+    <div class="hamburger-menu">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Overlay for Mobile Menu -->
+    <div class="overlay"></div>
+
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <div class="logo-container">
+                <img src="logo.png" alt="Christ Strength Gym Logo" class="responsive-logo">
+            </div>            
+            <ul>
+                <li class="active">
+                    <a href="userindex.html">
+                        <i class="fas fa-home nav-icon"></i>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="user-offers.html">
+                        <i class="fas fa-hourglass nav-icon"></i>
+                        Subscription
+                    </a>
+                </li>
+                <li>
+                    <a href="user-trainers.html">
+                        <i class="fas fa-dumbbell nav-icon"></i>
+                        Trainers
+                    </a>
+                </li>
+                <li>
+                    <a href="user-login-register.html">
+                        <i class="fas fa-sign-out-alt nav-icon"></i>
+                        Log Out
+                    </a>
+                </li>
+            </ul>
+            <footer class="footer">
+                <div class="footer-links">
+                    <a href="about.html">About Us</a> | 
+                    <a href="contact.html">Contact</a> | 
+                    <a href="privacy.html">Privacy Policy</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Exclusive Gym Offers</h1>
+        <div class="offer-container">
+            <div class="offer-card">
+                <h3>1 Month</h3>
+                <p class="price">$50</p>
+                <p>Access to all gym equipment</p>
+                <button>Subscribe</button>
+            </div>
+
+            <div class="offer-card">
+                <h3>3 Months</h3>
+                <p class="price">$135</p>
+                <p>Access to all gym equipment + 1 Free Personal Training Session</p>
+                <button>Subscribe</button>
+            </div>
+
+            <div class="offer-card">
+                <h3>6 Months</h3>
+                <p class="price">$240</p>
+                <p>Access to all gym equipment + 2 Free Personal Training Sessions</p>
+                <button>Subscribe</button>
+            </div>
+
+            <div class="offer-card">
+                <h3>1 Year</h3>
+                <p class="price">$450</p>
+                <p>Unlimited access + 5 Free Personal Training Sessions + 1 Free Month</p>
+                <button>Subscribe</button>
+            </div>
+        </div>
+    </div>
+
+     <!-- JavaScript -->
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const hamburgerMenu = document.querySelector(".hamburger-menu");
+          const sidebar = document.querySelector(".sidebar");
+          const modalOverlay = document.querySelector(".modal-overlay");
+      
+          // Toggle the sidebar visibility
+          hamburgerMenu.addEventListener("click", () => {
+            hamburgerMenu.classList.toggle("active");
+            sidebar.classList.toggle("active");
+            sidebar.classList.toggle("hidden");
+          });
+      
+          // Close the sidebar if modal overlay is clicked (optional)
+          modalOverlay?.addEventListener("click", () => {
+            hamburgerMenu.classList.remove("active");
+            sidebar.classList.remove("active");
+            sidebar.classList.add("hidden");
+          });
+        });
+      </script>
+</body>
+</html>

@@ -1,0 +1,479 @@
+:root {
+  --light-blue: #e6f2ff;
+  --soft-blue: #b3d9ff;
+  --deep-blue: #4da6ff;
+  --white: #ffffff;
+  --dark-text: #333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--light-blue);
+  color: var(--dark-text);
+  line-height: 1.6;
+}
+
+.dashboard {
+  display: flex;
+}
+
+/* Hamburger Menu Default */
+.hamburger-menu {
+  display: block; /* Visible on mobile */
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+  cursor: pointer;
+  width: 30px;
+  height: 20px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-menu span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: var(--deep-blue);
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+/* Rotate the bars when active */
+.hamburger-menu.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+@media (min-width: 769px) {
+  .hamburger-menu {
+    display: none;
+  }
+  .sidebar {
+    transform: translateX(0); /* Always visible on desktop */
+  }
+}
+
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: var(--soft-blue);
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translateX(-250px); /* Hide on mobile by default */
+  transition: transform 0.3s ease;
+  box-shadow: 5px 0 15px rgba(77, 166, 255, 0.1);
+  z-index: 999;
+}
+
+.sidebar.active {
+  transform: translateX(0); /* Show when active */
+}
+
+.overlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+.overlay.active {
+  display: block; /* Show when active */
+}
+
+.sidebar-content {
+  padding: 30px 20px;
+}
+
+.sidebar h2 {
+  color: var(--deep-blue);
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: var(--dark-text);
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+  background-color: rgba(77, 166, 255, 0.2);
+  transform: translateX(10px);
+}
+
+.sidebar ul li a i {
+  margin-right: 10px;
+  color: var(--deep-blue);
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.responsive-logo {
+  max-width: 100%;
+  height: auto;
+  max-height: 180px; /* Adjust size */
+}
+
+.main-content {
+  margin-left: 250px; /* Always space for sidebar on desktop */
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 250px;
+  width: calc(100% - 250px);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid var(--deep-blue);
+  border-radius: 5px;
+}
+
+.btn {
+  padding: 10px 15px;
+  background-color: var(--deep-blue);
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-left: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-success {
+  background-color: #28a745;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+/* Wrapper for the table to enable horizontal scrolling */
+.table-card {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Add smooth scrolling for iOS devices */
+  margin-top: 20px;
+}
+
+#membersTable {
+  width: 100%;
+  border-collapse: collapse; /* Removes gaps between table borders */
+  margin-top: 20px;
+  min-width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+ 
+  border-radius: 2px; /* Rounds the corners of the table */
+  overflow: hidden; /* Ensures rounded corners apply */
+}
+
+#membersTable th, 
+#membersTable td {
+  border-right: 1px solid black; /* Adds black borders to cells */
+  border-bottom: 1px solid black; /* Adds black borders to cells */
+  padding: 12px;
+  text-align: left;
+  white-space: nowrap; /* Prevents text wrapping inside cells */
+}
+
+/* Optional: Style the header for better visibility */
+#membersTable th {
+  background-color: #f4f4f4; /* Light gray for headers */
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1500;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+  transition: all 0.3s ease;
+}
+
+.modal-content {
+  background-color: var(--white);
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 15px;
+  width: 80%; /* Width is dynamic to accommodate different screen sizes */
+  max-width: 600px; /* Ensures the modal doesn't get too wide */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+  transform: translateY(10px); /* Initial slight offset for smooth entrance */
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.close-btn {
+  color: var(--dark-text);
+  font-size: 32px;
+  font-weight: bold;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  color: var(--deep-blue); /* Change color on hover */
+}
+
+.modal-header {
+  background-color: var(--deep-blue);
+  color: var(--white);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.modal-body {
+  padding: 20px 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--dark-text);
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--deep-blue);
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-top: 5px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--deep-blue);
+  outline: none;
+  background-color: #ffffff;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
+.modal-footer button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.modal-footer .btn-secondary {
+  background-color: var(--light-blue);
+  color: var(--dark-text);
+}
+
+.modal-footer .btn-primary {
+  background-color: var(--deep-blue);
+  color: var(--white);
+}
+
+.modal-footer button:hover {
+  transform: translateY(-2px);
+}
+
+/* Submit Button Styles */
+.submit-btn {
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px;
+  width: 100%;
+  background-color: var(--deep-blue);
+  color: var(--white);
+  border: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.submit-btn:hover {
+  background-color: #3385ff; /* Slightly lighter blue for hover */
+  transform: translateY(-2px); /* Adds subtle lift effect */
+}
+
+.submit-btn:active {
+  background-color: #006bb3; /* Darker blue when pressed */
+  transform: translateY(1px); /* Gives a pressed-in effect */
+}
+
+.submit-btn:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(77, 166, 255, 0.6); /* Adds a glowing effect when focused */
+}
+
+/* Accessibility: Ensure button is easily clickable */
+.submit-btn[disabled] {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.submit-btn span {
+  margin-right: 8px; /* Adds space between icon and text if present */
+}
+
+@media (min-width: 769px) {
+  .sidebar {
+    transform: translateX(0) !important; /* Always visible on desktop */
+  }
+
+  .overlay {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 250px; /* Ensure space for the sidebar on larger screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .table-card {
+    margin-top: 15px;
+    padding: 0 10px; /* Add some horizontal padding for smaller screens */
+  }
+
+  #membersTable {
+    min-width: 100%; /* Allow the table to adjust to smaller screen sizes */
+  }
+
+  #membersTable th,
+  #membersTable td {
+    font-size: 14px; /* Reduce font size for better readability on smaller screens */
+    padding: 8px; /* Decrease padding for better spacing */
+  }
+
+  #membersTable td {
+    word-wrap: break-word; /* Allow text to wrap within cells if it's too long */
+  }
+  
+  .hamburger-menu {
+    display: block; /* Show only on mobile */
+  }
+
+  .main-content {
+      margin-left: 0;
+  }
+
+  .table-header {
+      flex-direction: column;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  
+  .search-bar {
+      width: 100%;
+      margin-bottom: 10px;
+  }
+
+  .modal-content {
+    width: 90%; /* Allow more space on smaller screens */
+  }
+  .modal-header {
+    font-size: 1rem;
+    padding: 12px;
+  }
+  .modal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .modal-footer button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

@@ -1,0 +1,252 @@
+:root {
+  --light-blue: #e6f2ff;
+  --soft-blue: #b3d9ff;
+  --deep-blue: #4da6ff;
+  --white: #ffffff;
+  --dark-text: #333;
+}
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--light-blue);
+  color: var(--dark-text);
+  line-height: 1.6;
+}
+
+.hamburger-menu {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+  cursor: pointer;
+  width: 30px;
+  height: 20px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-menu span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: var(--deep-blue);
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: var(--soft-blue);
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: transform 0.3s ease;
+  box-shadow: 5px 0 15px rgba(77, 166, 255, 0.1);
+  z-index: 999;
+}
+
+.sidebar-content {
+  padding: 30px 20px;
+}
+
+.sidebar h2 {
+  color: var(--deep-blue);
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: var(--dark-text);
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+  background-color: rgba(77, 166, 255, 0.2);
+  transform: translateX(10px);
+}
+
+.sidebar ul li a i {
+  margin-right: 10px;
+  color: var(--deep-blue);
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.responsive-logo {
+  max-width: 100%;
+  height: auto;
+  max-height: 180px; /* Adjust size */
+}
+
+.main-content {
+  margin-left: 250px;
+  padding: 30px;
+  transition: margin-left 0.3s ease;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: var(--white);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(77, 166, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 25px rgba(77, 166, 255, 0.2);
+}
+
+.card h3 {
+  color: var(--deep-blue);
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--dark-text);
+}
+
+/* Responsive Design */
+@media (min-width: 769px) {
+  .sidebar {
+      transform: translateX(0) !important; /* Always visible on desktop */
+  }
+
+  .overlay {
+      display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hamburger-menu {
+      display: block; /* Show only on mobile */
+  }
+
+  .sidebar {
+      transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+      transform: translateX(0);
+  }
+
+  .main-content {
+      margin-left: 0;
+  }
+}
+
+/* Overlay for mobile menu */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+@media (max-width: 768px) {
+  .overlay.active {
+      display: block;
+  }
+}
+.calendar {
+  background-color: var(--white);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(77, 166, 255, 0.1);
+  margin-top: 20px;
+}
+
+.calendar h3 {
+  color: var(--deep-blue);
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.25rem;
+}
+
+#calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#calendar-table thead {
+  background-color: var(--light-blue);
+}
+
+#calendar-table th, #calendar-table td {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid var(--soft-blue);
+}
+
+#calendar-table th {
+  color: var(--deep-blue);
+  font-weight: 600;
+}
+
+#calendar-table td {
+  color: var(--dark-text);
+  transition: background-color 0.3s ease;
+}
+
+#calendar-table td:hover {
+  background-color: rgba(77, 166, 255, 0.1);
+}
+
+#calendar-table td.today {
+  background-color: var(--deep-blue);
+  color: var(--white);
+  font-weight: bold;
+  border-radius: 50%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .calendar {
+      margin-top: 15px;
+      padding: 15px;
+  }
+
+  #calendar-table th, #calendar-table td {
+      padding: 8px;
+      font-size: 0.9rem;
+  }
+}

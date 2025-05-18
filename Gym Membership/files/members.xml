@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+  
+  <user>
+    <id>1</id>
+    <name>Gelo</name>
+    <gender>Girl</gender>
+    <plan>2months</plan>
+    <datestart>2024-12-09</datestart>
+    <countdown>2025-01-12</countdown>
+    <trainor>n/a</trainor>
+  </user>
+  <user>
+    <id>43</id>
+    <name>Boyet</name>
+    <gender>Boy</gender>
+    <plan>1month</plan>
+    <datestart>2024-12-09</datestart>
+    <countdown>2025-02-07</countdown>
+    <trainor>trainer2</trainor>
+  </user>
+  
+</users>

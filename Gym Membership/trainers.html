@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christ Stength Gym | Trainers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="trainers.css">
+    <link rel="icon" href="titlegymicon.jpg" type="x-icon">
+    <!-- Add Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <!-- Hamburger Menu -->
+  <div class="hamburger-menu" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- Overlay for when the menu is active -->
+<div class="overlay"></div>
+
+<div class="sidebar">
+    <div class="sidebar-content">
+        <div class="logo-container">
+            <img src="logo.png" alt="Christ Strength Gym Logo" class="responsive-logo">
+        </div>            
+        <ul>
+            <li><a href="index.php"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="trainers.html"><i class="fas fa-dumbbell"></i> Trainers</a></li>
+            <li><a href="memberslist.php"><i class="fas fa-users"></i> Members List</a></li>
+            <li><a href="offers.html"><i class="fas fa-tags"></i> Gym Offers</a></li>
+            <li><a href="register-logins.html"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+        </ul>
+    </div>
+</div>
+  <div class="main-content">
+    <h1>Personal Trainers</h1>
+    <div class="card-container">
+      <div class="card" onclick="openModal(0)">
+        <img src="trainers/trainer1.jpg" alt="trainer1">
+        <div class="card-title">Brad Schoenfeld</div>
+      </div>
+      <div class="card" onclick="openModal(1)">
+        <img src="trainers/trainer2.jpg" alt="trainer2">
+        <div class="card-title">Matt Roberts</div>
+      </div>
+      <div class="card" onclick="openModal(2)">
+        <img src="trainers/trainer3.jpg" alt="trainer3">
+        <div class="card-title">Shaun Stafford</div>
+      </div>
+      <div class="card" onclick="openModal(3)">
+        <img src="trainers/trainer4.jpg" alt="trainer4">
+        <div class="card-title">Alexia Clark</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" onclick="closeModal()"></div>
+  <div class="modal">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="modal-content"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburgerMenu = document.querySelector(".hamburger-menu");
+      const sidebar = document.querySelector(".sidebar");
+      const modalOverlay = document.querySelector(".modal-overlay");
+  
+      // Toggle the sidebar visibility
+      hamburgerMenu.addEventListener("click", () => {
+        hamburgerMenu.classList.toggle("active");
+        sidebar.classList.toggle("active");
+        sidebar.classList.toggle("hidden");
+      });
+  
+      // Close the sidebar if modal overlay is clicked (optional)
+      modalOverlay?.addEventListener("click", () => {
+        hamburgerMenu.classList.remove("active");
+        sidebar.classList.remove("active");
+        sidebar.classList.add("hidden");
+      });
+    });
+  </script>
+
+  <script>
+    // Bio information for each trainer
+    const bioData = [
+      {
+        name: "Brad Schoenfeld",
+        age: 45,
+        height: "5'10\"",
+        weight: "180 lbs",
+        specialist: "Strength Training",
+        achievements: "Author of 'The M.A.X. Muscle Plan', Multiple awards in bodybuilding competitions."
+      },
+      {
+        name: "Matt Roberts",
+        age: 38,
+        height: "6'0\"",
+        weight: "200 lbs",
+        specialist: "Prenatal & Postnatal Fitness",
+        achievements: "Expert in prenatal training, over 15 years of experience in postnatal fitness programs."
+      },
+      {
+        name: "Shaun Stafford",
+        age: 32,
+        height: "5'9\"",
+        weight: "175 lbs",
+        specialist: "Gamer Fitness & Posture",
+        achievements: "Developed GamerFit program for better posture and strength for gamers."
+      },
+      {
+        name: "Alexia Clark",
+        age: 29,
+        height: "5'6\"",
+        weight: "140 lbs",
+        specialist: "Bikini Body Transformation",
+        achievements: "Multiple Bikini Fitness competition titles, creator of the popular 'Beach Body' program."
+      }
+    ];
+
+    // Open modal function
+    function openModal(index) {
+      const modal = document.querySelector(".modal");
+      const overlay = document.querySelector(".modal-overlay");
+      const content = document.querySelector(".modal-content");
+
+      const trainer = bioData[index];
+
+      content.innerHTML = `
+        <h2 style="text-align: center; margin-bottom: 10px;">${trainer.name}</h2>
+        <img src="trainers/trainer${index + 1}.jpg" alt="${trainer.name}" style="width: 270px; height: 380px; object-fit: cover; display: block; margin: 0 auto;">
+        <p><strong>Age:</strong> ${trainer.age}</p>
+        <p><strong>Height:</strong> ${trainer.height}</p>
+        <p><strong>Weight:</strong> ${trainer.weight}</p>
+        <p><strong>Specialist:</strong> ${trainer.specialist}</p>
+        <p><strong>Achievements:</strong> ${trainer.achievements}</p>
+      `;
+      modal.style.display = "block";
+      overlay.style.display = "block";
+    }
+
+    // Close modal function
+    function closeModal() {
+      const modal = document.querySelector(".modal");
+      const overlay = document.querySelector(".modal-overlay");
+
+      modal.style.display = "none";
+      overlay.style.display = "none";
+    }
+  </script>
+<script>
+window.embeddedChatbotConfig = {
+chatbotId: "g8kGxA_OKnyHBU8oL_sRL",
+domain: "www.chatbase.co"
+}
+</script>
+<script
+src="https://www.chatbase.co/embed.min.js"
+chatbotId="g8kGxA_OKnyHBU8oL_sRL"
+domain="www.chatbase.co"
+defer>
+</script>
+
+  
+</body>
+</html>

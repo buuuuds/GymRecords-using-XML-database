@@ -1,0 +1,235 @@
+/* Root Variables */
+:root {
+    --light-blue: #0080ff;
+    --light-blue-glow: #d1dcff;
+    --white: #ffffff;
+    --gray: #4a4a4a;
+    --dark-gray: #1a1a1a;
+    --error-red: #ff4d4d;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: #d9ebff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: var(--dark-gray);
+}
+
+.login-container {
+    width: 900px;
+    height: 600px;
+    display: flex;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgb(0, 110, 255);
+    background: linear-gradient(135deg, var(--white), #f0f8ff);
+    animation: containerEnter 0.8s ease-out;
+}
+
+/* Left Panel Styles */
+.left-panel {
+    flex: 1;
+    background: var(--light-blue);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    position: relative;
+    animation: slideInLeft 0.7s ease-out;
+}
+
+.left-panel .logo {
+    margin-top: 20px;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-shadow: 0 0 20px var(--light-blue-glow);
+}
+
+/* Right Panel Styles */
+.right-panel {
+    flex: 1;
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeInRight 1s ease-out;
+}
+
+.tabs {
+    padding-top: 25px;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: 2px solid transparent;
+    color: var(--gray);
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.tab-btn.active {
+    color: var(--light-blue);
+    border-color: var(--light-blue);
+    text-shadow: 0 0 10px var(--light-blue);
+    transform: translateY(-5px);
+}
+
+.tab-btn:hover {
+    transform: translateY(-3px);
+}
+
+/* Form Styles */
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: #f7f7f7;
+    color: var(--dark-gray);
+    font-size: 1em;
+    transition: 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--light-blue);
+    box-shadow: 0 0 15px var(--light-blue);
+    transform: scale(1.05);
+}
+
+/* Style the checkbox container */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* Make the checkbox smaller */
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Style the label text */
+label {
+    font-size: 14px;
+    color: #000;
+    width: 100%;
+}
+
+/* Style the "I agree to" part */
+label span {
+    color: #000;
+}
+
+/* Style the "Terms & Conditions" and "Privacy Policy" links */
+label a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+label a:hover {
+    text-decoration: underline;
+}
+
+
+.login-btn {
+    padding: 15px;
+    background: #022fc4bd;
+    border: none;
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: var(--light-blue);
+    box-shadow: 0 0 20px var(--light-blue);
+    transform: scale(1.1);
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: var(--light-blue);
+    font-size: 0.9em;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.link-btn:hover {
+    color: var(--light-blue-glow);
+    text-shadow: 0 0 5px var(--light-blue-glow);
+}
+
+/* Container Entrance Animation */
+@keyframes containerEnter {
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Left Panel Animation */
+@keyframes slideInLeft {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
+}
+
+/* Right Panel Fade-In Effect */
+@keyframes fadeInRight {
+    0% { opacity: 0; transform: translateX(30px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+    }
+
+    .left-panel {
+        padding: 20px;
+    }
+
+    .right-panel {
+        padding: 20px;
+    }
+}
+.logo {
+    width: 100%; /* Scales the logo to the container width */
+    max-width: 300px; /* Limits the maximum size of the logo */
+    height: auto; /* Maintains aspect ratio */
+}
